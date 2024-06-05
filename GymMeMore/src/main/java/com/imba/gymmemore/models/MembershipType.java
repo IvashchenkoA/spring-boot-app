@@ -3,13 +3,14 @@ package com.imba.gymmemore.models;
 import jakarta.persistence.*;
 
 import java.util.List;
+
 @Entity
-public class ProfLevel {
-    @jakarta.persistence.Id
+public class MembershipType {
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long Id;
+    private Long id;
     private String name;
     private String description;
-    @OneToMany(mappedBy = "profLevel")
-    private List<Client> clients;
+    @OneToMany(mappedBy = "membershipType")
+    private List<Membership> memberships;
 }

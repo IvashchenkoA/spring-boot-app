@@ -3,7 +3,11 @@ package com.imba.gymmemore.models;
 import jakarta.persistence.*;
 
 import java.util.List;
+import java.util.Set;
+
 @Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "Person_type")
 public abstract class Person {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -12,6 +16,5 @@ public abstract class Person {
     private String email;
     private String username;
     private String password;
-    private List<Coach> coaches;
-    private List<Client> clients;
+
 }
