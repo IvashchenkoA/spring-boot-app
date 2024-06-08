@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: GymMeMore
+server:
+  servlet:
+    context-path: /gym-me-more

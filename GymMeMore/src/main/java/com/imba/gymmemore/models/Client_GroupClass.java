@@ -5,9 +5,10 @@ import jakarta.persistence.*;
 @Entity
 public class Client_GroupClass {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long Id;
     @ManyToOne
     private Client client;
-    @Id
     @ManyToOne
     private GroupClass groupClass;
     @OneToOne
