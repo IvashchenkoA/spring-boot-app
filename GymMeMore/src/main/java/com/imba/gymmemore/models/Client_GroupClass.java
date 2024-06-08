@@ -1,13 +1,15 @@
 package com.imba.gymmemore.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.PrimaryKeyJoinColumn;
+import jakarta.persistence.*;
 
 @Entity
 public class Client_GroupClass {
-    @PrimaryKeyJoinColumn
+    @Id
+    @ManyToOne
     private Client client;
-    @PrimaryKeyJoinColumn
+    @Id
+    @ManyToOne
     private GroupClass groupClass;
+    @OneToOne
     private Review review;
 }

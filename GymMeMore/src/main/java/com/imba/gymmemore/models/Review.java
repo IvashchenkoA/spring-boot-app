@@ -1,9 +1,7 @@
 package com.imba.gymmemore.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.annotation.Nullable;
+import jakarta.persistence.*;
 
 @Entity
 public class Review {
@@ -12,4 +10,10 @@ public class Review {
     private Long id;
     private double rating;
     private String feedback;
+    @OneToOne
+    @Nullable
+    private IndividualSession individualSession;
+    @OneToOne
+    @Nullable
+    private Client_GroupClass client_groupClass;
 }

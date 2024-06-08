@@ -14,10 +14,10 @@ public class Client extends Person{
     private ProfLevel profLevel;
     @OneToOne
     private BankAccount bankAccount;
-    @ManyToMany(mappedBy = "clients")
-    private List<GroupClass> groupClasses;
     @OneToOne
     private Membership membership;
-    @ManyToMany(mappedBy = "clients")
-    private List<Coach> coaches;
+    @OneToMany(mappedBy = "client", fetch = FetchType.EAGER)
+    private List<IndividualSession> individualSessions;
+    @OneToMany(mappedBy = "client", fetch = FetchType.EAGER)
+    private List<Client_GroupClass> client_groupClasses;
 }

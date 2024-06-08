@@ -15,8 +15,8 @@ public class GroupClass {
     private double popularity;
     @ManyToOne
     private Coach coach;
-    @ManyToMany(mappedBy = "groupClasses")
-    private List<Client> clients;
     @ManyToOne
     private ClassType classType;
+    @OneToMany(mappedBy = "groupClass", fetch = FetchType.EAGER)
+    private List<Client_GroupClass> client_groupClasses;
 }

@@ -13,8 +13,8 @@ public class Coach extends Person{
     private int conductedClasses;
     @ManyToOne
     private Branch branch;
-    @OneToMany(mappedBy = "coach")
+    @OneToMany(mappedBy = "coach", fetch = FetchType.EAGER)
     private List<GroupClass> groupClasses;
-    @ManyToMany(mappedBy = "coaches")
-    private List<Client> clients;
+    @OneToMany(mappedBy = "coach", fetch = FetchType.EAGER)
+    private List<IndividualSession> individualSessions;
 }
