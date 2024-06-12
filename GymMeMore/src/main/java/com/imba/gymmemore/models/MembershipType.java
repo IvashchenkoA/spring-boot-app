@@ -11,6 +11,6 @@ public class MembershipType {
     private Long id;
     private String name;
     private String description;
-    @OneToMany(mappedBy = "membershipType")
+    @OneToMany(mappedBy = "membershipType", fetch = FetchType.EAGER)
     private List<Membership> memberships;
 }

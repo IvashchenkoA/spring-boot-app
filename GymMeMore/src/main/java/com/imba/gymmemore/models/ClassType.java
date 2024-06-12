@@ -12,6 +12,6 @@ public class ClassType {
     private String name;
     private String description;
     private int capacity;
-    @OneToMany(mappedBy = "classType")
+    @OneToMany(mappedBy = "classType", fetch = FetchType.EAGER)
     private List<GroupClass> groupClasses;
 }

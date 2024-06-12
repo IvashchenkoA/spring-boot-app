@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Branches</title>
+    <link rel="stylesheet" th:href="@{/styles.css}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+</head>
+<body>
+<header>
+    <h1>Gym Branches</h1>
+    <div>
+        <form method="post" action="/gym-me-more/home/branches">
+            <label for="city-filter">Select your city:</label>
+            <select id="city-filter" name="city">
+                <option value="">All Cities</option>
+                <option th:each="city : ${cities}" th:value="${city}" th:text="${city}"></option>
+            </select>
+            <button type="submit">explore</button>
+        </form>
+    </div>
+</header>
+<main>
+     <div th:unless="${branches}">
+         <p> No city selected.</p>
+     </div>
+    <div id="branch-list">
+        <ul>
+            <li th:each="branch : ${branches}">
+                <a th:href="@{/branches/{id}(id=${branch.id})}" th:text="${branch.description}"></a>
+            </li>
+        </ul>
+    </div>
+</main>
+</body>
+</html>

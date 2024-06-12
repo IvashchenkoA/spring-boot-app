@@ -10,6 +10,6 @@ public class ProfLevel {
     private Long Id;
     private String name;
     private String description;
-    @OneToMany(mappedBy = "profLevel")
+    @OneToMany(mappedBy = "profLevel", fetch = FetchType.EAGER)
     private List<Client> clients;
 }

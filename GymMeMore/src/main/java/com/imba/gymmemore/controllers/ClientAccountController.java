@@ -53,7 +53,7 @@ public class ClientAccountController {
         return "review";
     }
     @PostMapping("/yourSchedule/review")
-    public String submitReview(ReviewDTO reviewDTO){
+    public String submitReview(/*ReviewDTO reviewDTO*/){
         return "redirect:/account/yourSchedule";
     }
     @GetMapping("/yourSchedule/resign")

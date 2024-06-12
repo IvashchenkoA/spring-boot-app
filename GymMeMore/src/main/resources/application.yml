@@ -1,6 +1,24 @@
 spring:
   application:
     name: GymMeMore
+  h2:
+    console:
+      path: /my-console
+  datasource:
+    url: jdbc:h2:file:./data/gymmemoredb
+    driver-class-name: org.h2.Driver
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+    defer-datasource-initialization: true
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  sql:
+    init:
+      data-locations: classpath:data/data.sql
 server:
   servlet:
     context-path: /gym-me-more
+

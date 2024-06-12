@@ -1,0 +1,90 @@
+body {
+    font-family: "Bebas Neue", sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #3d3842;
+}
+
+header {
+    background-color: #333;
+    color: white;
+    padding: 5px 0;
+}
+
+header h1 {
+    text-align: center;
+}
+
+nav ul {
+    list-style-type: none;
+    padding: 30px 0px;
+    margin: 0px 5px;
+    text-align: center;
+    background-color: #441f69;
+}
+
+nav ul li {
+    display: inline;
+    margin: 10px 200px;
+}
+
+nav ul li a {
+    font-size: 20px;
+    color: white;
+    text-decoration: none;
+}
+
+main {
+    padding: 20px;
+    text-align: center;
+}
+.container {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+}
+
+.bebas-neue-regular {
+    font-family: "Bebas Neue", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.left {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+}
+
+.right {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+.action-button {
+    font-family: "Bebas Neue", sans-serif;
+    background-color: #3e8c40;
+    color: white;
+    padding: 30px 170px;
+    margin: 17px 0;
+    border: none;
+    border-radius: 5px;
+    font-size: 30px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.action-button:hover {
+    background-color: #2d5c2e;
+}
