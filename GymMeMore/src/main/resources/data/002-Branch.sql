@@ -1,0 +1,7 @@
+--INSERT INTO Branch (name,description, address_Id)
+--VALUES
+ --   ('Warsaw Branch 1','descr', 1),
+  --  ('Warsaw Branch 2', 'descr',2),
+  --  ('Krakow Branch', 'descr',3),
+  --  ('Wroclaw Branch', 'descr',4),
+  -- ('Gdansk Branch', 'descr',5);

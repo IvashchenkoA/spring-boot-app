@@ -9,8 +9,8 @@ public class Address {
     private Long Id;
     private String city;
     private String street;
-    private String houseNumber;
-    @OneToOne
+    private int houseNumber;
+    @OneToOne(mappedBy = "address")
     private Branch branch;
 
     public Address() {
@@ -40,11 +40,11 @@ public class Address {
         this.street = street;
     }
 
-    public String getHouseNumber() {
+    public int getHouseNumber() {
         return houseNumber;
     }
 
-    public void setHouseNumber(String houseNumber) {
+    public void setHouseNumber(int houseNumber) {
         this.houseNumber = houseNumber;
     }
 

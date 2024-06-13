@@ -10,14 +10,14 @@
 <body>
 <header>
     <h1>Gym Branches</h1>
-    <div>
+    <div class="city-select">
         <form method="post" action="/gym-me-more/home/branches">
-            <label for="city-filter">Select your city:</label>
-            <select id="city-filter" name="city">
+            <label for="city-filter"><i>Select your city:</i></label>
+            <select id="city-filter" name="city" class="select-city">
                 <option value="">All Cities</option>
                 <option th:each="city : ${cities}" th:value="${city}" th:text="${city}"></option>
             </select>
-            <button type="submit">explore</button>
+            <button type="submit" class="branches-button">explore</button>
         </form>
     </div>
 </header>
@@ -28,7 +28,7 @@
     <div id="branch-list">
         <ul>
             <li th:each="branch : ${branches}">
-                <a th:href="@{/branches/{id}(id=${branch.id})}" th:text="${branch.description}"></a>
+                <a th:href="@{/home/branches/{id}(id=${branch.id})}" th:text="${branch.name}" class="branch-link"></a>
             </li>
         </ul>
     </div>

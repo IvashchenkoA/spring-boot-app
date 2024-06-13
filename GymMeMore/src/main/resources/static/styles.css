@@ -69,7 +69,47 @@ img {
     max-width: 100%;
     height: auto;
 }
+.branch-link {
+    color: #6791b1;
+    font-size: 30px;
+    text-decoration: none;
+}
 
+.branch-link:hover {
+    text-decoration: underline;
+}
+.select-city{
+    font-family: "Bebas Neue", sans-serif;
+    background-color: #ffffff;
+    color: #0e2639;
+    padding: 4px 4px;
+    margin: 20px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 15px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+}
+.branches-button{
+    font-family: "Bebas Neue", sans-serif;
+    background-color: #3e8c40;
+    color: white;
+    padding: 4px 4px;
+    margin: 20px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 15px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+}
+.city-select{
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
 .action-button {
     font-family: "Bebas Neue", sans-serif;
     background-color: #3e8c40;

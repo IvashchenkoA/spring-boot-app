@@ -1,11 +1,13 @@
 package com.imba.gymmemore.services;
 
+import com.imba.gymmemore.models.Address;
 import com.imba.gymmemore.models.Branch;
 import com.imba.gymmemore.repositories.AddressRepository;
 import com.imba.gymmemore.repositories.BranchRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class HomePageService {
@@ -27,5 +29,12 @@ public class HomePageService {
 
     public List<Branch> getBranchesByCity(String city){
         return branchRepository.getBranchByAddress_City(city);
+    }
+    public Optional<Branch> getBranchById(Long id){
+        return branchRepository.findById(id);
+    }
+
+    public Optional<Address> getAddressByBranchId(Long id){
+        return addressRepository.getAddressByBranchId(id);
     }
 }

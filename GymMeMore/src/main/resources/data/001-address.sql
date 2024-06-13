@@ -1,0 +1,7 @@
+--INSERT INTO Address (city, street, house_number)
+--VALUES
+ --   ('Warsaw', 'Marszalkowska', 11),
+ --   ('Warsaw', 'Jana Pawla II', 2),
+  --  ('Krakow', 'Florianska', 7),
+  --  ('Wroclaw', 'Rynek', 13),
+  --  ('Gdansk', 'Dluga', 55);

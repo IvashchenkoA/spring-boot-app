@@ -1,15 +1,16 @@
 package com.imba.gymmemore.controllers;
 
+import com.imba.gymmemore.DTO.AddressDTO;
+import com.imba.gymmemore.DTO.BranchDTO;
+import com.imba.gymmemore.models.Address;
 import com.imba.gymmemore.models.Branch;
 import com.imba.gymmemore.services.HomePageService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/home")
@@ -32,22 +33,46 @@ public class HomePageController {
         return "branches";
     }
 
-    @PostMapping("/branches")
-    public String branchesByCity(@RequestParam(required = false) String city, Model model){
+    @GetMapping("/branches/city/{city}")
+    public String getBranchesByCity(@PathVariable String city, Model model){
         Iterable<Branch> branches;
         if(city != null && !city.isEmpty()){
-            branches = homePageService.getAllBranches();
+            branches = homePageService.getBranchesByCity(city);
         }
         else{
-           branches = homePageService.getBranchesByCity(city);
+            branches = homePageService.getAllBranches();
         }
         model.addAttribute("branches", branches);
         return "branches";
     }
 
-    @GetMapping("branches/{id}")
-    public String getBranchDetails(@RequestParam Long id, Model model){
-        return "branchDetails";
+    @PostMapping("/branches")
+    public String branchesByCity(@RequestParam(required = false) String city, Model model){
+        Iterable<Branch> branches;
+        if(city != null && !city.isEmpty()){
+            branches = homePageService.getBranchesByCity(city);
+        }
+        else{
+           branches = homePageService.getAllBranches();
+        }
+        model.addAttribute("branches", branches);
+        return "branches";
+    }
+
+    @GetMapping("/branches/{id}")
+    public String getBranchDetails(@PathVariable Long id, Model model){
+        try {
+            model.addAttribute("id", id);
+            Optional<Branch> b = homePageService.getBranchById(id);
+            Optional<Address> address = homePageService.getAddressByBranchId(id);
+            AddressDTO aDTO = new AddressDTO(address.get().getCity(), address.get().getStreet(), address.get().getHouseNumber());
+            BranchDTO br = new BranchDTO(b.get().getName(), b.get().getDescription(), aDTO);
+            model.addAttribute("branch", br);
+            return "branchDetails";
+        }
+        catch(Exception e){
+            return "";
+        }
     }
 
     @GetMapping("/branches/{id}/route")

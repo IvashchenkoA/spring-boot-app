@@ -8,13 +8,25 @@ public class Branch {
     @jakarta.persistence.Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long Id;
+    private String name;
     private String description;
+
     @OneToMany(mappedBy = "branch", fetch = FetchType.EAGER)
     private List<Coach> coaches;
-    @OneToOne(mappedBy = "branch", fetch = FetchType.EAGER)
+
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "address_Id", unique = true)
     private Address address;
 
     public Branch() {
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Long getId() {
