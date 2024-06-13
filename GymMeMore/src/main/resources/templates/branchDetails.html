@@ -6,6 +6,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+
 </head>
 <body>
 <header>
@@ -16,19 +17,24 @@
 </header>
 <main>
     <p th:text="${branch.description}">Branch description</p>
-    <p th:text="'Address: ' + ${branch.address.city} + ', ' + ${branch.address.street} + ' ' + ${branch.address.houseNumber}">Branch address</p>
+    <p th:text="'Address: ' + ${branch.address.city} + ', ' + ${branch.address.street} + ' ' + ${branch.address.houseNumber}"></p>
     <th:block th:each="i : ${#numbers.sequence(1, 5)}">
         <img th:if="${id == i}" th:src="@{'/' + ${i} + '.jpg'}" alt="gym img">
     </th:block>
-    <form method="post" th:action="@{'/gym-me-more/home/branches/' + ${id} + '/route'}">
-        <label for="user-address">Enter your address:</label>
-        <input type="text" id="user-address" name="userAddress" required>
-        <button type="submit">Calculate Route</button>
-    </form>
+    <<form th:action="@{/home/branches/{id}/route(id=${id})}" method="post">
+    <label for="user-address">Enter your address:</label>
+    <input type="text" id="user-address" name="userAddress" required>
+    <button type="submit">Calculate Route</button>
+</form>
+
+    <div th:if="${error}">
+        <p style="color: red;" th:text="${error}"></p>
+    </div>
 
     <div th:if="${route}">
         <h2>Route</h2>
         <pre th:text="${route}"></pre>
+        <img th:src="${mapUrl}" alt="Map showing route">
     </div>
 </main>
 </body>

@@ -19,4 +19,6 @@ spring:
 server:
   servlet:
     context-path: /gym-me-more
-
+google:
+  api:
+    key: AIzaSyATfdizi8xbYN8yFr1IrnhTwZl1ZcxW874

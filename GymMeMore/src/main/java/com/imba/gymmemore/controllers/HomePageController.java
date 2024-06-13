@@ -1,14 +1,18 @@
 package com.imba.gymmemore.controllers;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.imba.gymmemore.DTO.AddressDTO;
 import com.imba.gymmemore.DTO.BranchDTO;
 import com.imba.gymmemore.models.Address;
 import com.imba.gymmemore.models.Branch;
+import com.imba.gymmemore.services.GoogleMapsService;
 import com.imba.gymmemore.services.HomePageService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,9 +20,13 @@ import java.util.Optional;
 @RequestMapping("/home")
 public class HomePageController {
     private final HomePageService homePageService;
+    private final GoogleMapsService googleMapsService;
+    private final ObjectMapper objectMapper;
 
-    public HomePageController(HomePageService homePageService) {
+    public HomePageController(HomePageService homePageService, GoogleMapsService googleMapsService, ObjectMapper objectMapper) {
         this.homePageService = homePageService;
+        this.googleMapsService = googleMapsService;
+        this.objectMapper = objectMapper;
     }
 
     @GetMapping
@@ -81,7 +89,44 @@ public class HomePageController {
     }
 
     @PostMapping("/branches/{id}/route")
-    public String calcRoute(Model model){
-        return "route";
+    public String calculateRoute(@PathVariable Long id, @RequestParam String userAddress, Model model) throws IOException {
+        Optional<Branch> b = homePageService.getBranchById(id);
+
+        if (b.isPresent()) {
+            Address branchAddress = b.get().getAddress();
+            AddressDTO address = new AddressDTO(branchAddress.getCity(), branchAddress.getStreet(), branchAddress.getHouseNumber());
+            String destination = address.getCity() + ", " + address.getStreet() + " " + address.getHouseNumber();
+
+            if (!googleMapsService.isValidAddress(userAddress)) {
+                model.addAttribute("error", "Invalid address. Please enter a valid address.");
+                return "branchDetails";
+            }
+
+            try {
+                String route = googleMapsService.getRoute(userAddress, destination);
+                String mapUrl = googleMapsService.generateStaticMapWithRoute(userAddress, destination);
+
+                model.addAttribute("route", route);
+                model.addAttribute("mapUrl", mapUrl);
+                model.addAttribute("branch", new BranchDTO(b.get().getName(), b.get().getDescription(), address));
+            } catch (IOException e) {
+                model.addAttribute("error", "Error calculating route. Please try again.");
+                return "branchDetails";
+            }
+        } else {
+            model.addAttribute("error", "Branch not found.");
+            return "branchDetails";
+        }
+        return "branchDetails";
+    }
+
+    @GetMapping("/autocomplete")
+    @ResponseBody
+    public JsonNode autocompleteAddress(@RequestParam String input) {
+        try {
+            return googleMapsService.autocompleteAddress(input);
+        } catch (IOException e) {
+            return objectMapper.createObjectNode().putArray("predictions");
+        }
     }
 }
