@@ -129,4 +129,5 @@ public class HomePageController {
             return objectMapper.createObjectNode().putArray("predictions");
         }
     }
+
 }

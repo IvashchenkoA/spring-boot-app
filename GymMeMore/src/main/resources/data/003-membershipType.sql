@@ -1,0 +1,5 @@
+--INSERT INTO Membership_Type (description, name, price)
+--VALUES
+    --('description n1', 'Basic', 100),
+    --('description n2', 'Flex', 130),
+    --('description n3', 'Premium', 160);

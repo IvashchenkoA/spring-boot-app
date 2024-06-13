@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang= xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title layout:fragment="title">Memberships - Gym me more</title>
+    <link rel="stylesheet" th:href="@{/styles.css}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+</head>
+<body>
+<main layout:fragment="content">
+    <h1 style="color:white;">Available packages</h1>
+    <div th:if="${memberships == null || #lists.isEmpty(memberships)}">
+        <p>No active memberships.</p>
+    </div>
+    <div th:if="${memberships != null && !#lists.isEmpty(memberships)}">
+        <div class="membership-container">
+            <ul class="membership-list">
+                <li th:each="m : ${memberships}">
+                    <div class="membership-block">
+                        <h2 th:text="${m.name}">Membership Name</h2>
+                        <p th:text="${m.description}">Membership Description</p>
+                        <form th:action="@{/join}" method="get">
+                            <input type="hidden" name="name" th:value="${m.name}">
+                            <input type="hidden" name="description" th:value="${m.description}">
+                            <input type="hidden" name="price" th:value="${m.price}">
+                            <button type="submit" class="membership-button" th:text="${m.price} + ' zł'"></button>
+                        </form>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</main>
+</body>
+</html>

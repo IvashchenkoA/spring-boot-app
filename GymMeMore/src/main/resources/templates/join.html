@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang= xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title layout:fragment="title">Join - Gym me more</title>
+    <link rel="stylesheet" th:href="@{/styles.css}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+</head>
+<body class="body">
+<main layout:fragment="content">
+    <div class="form-container">
+        <div class="membership-info">
+            <h2 th:text="${membershipType.name}">Membership Name</h2>
+            <p th:text="${membershipType.description}">Membership Description</p>
+            <p th:text="'Chosen fare: zł' + ${membershipType.price}">Monthly Rate</p>
+        </div>
+        <form class="form" th:action="@{/join}" method="post" th:object="${client}">
+            <label for="firstname">Enter first name:</label>
+            <input id="firstname" name="firstname" th:field="*{firstName}" required>
+            <div class="validation-error" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}">First name error</div>
+            <label for="email">Enter email:</label>
+            <input id="email" name="email" th:field="*{email}" required>
+            <div class="validation-error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email error</div>
+            <label for="username">Enter username:</label>
+            <input id="username" name="username" th:field="*{username}" required>
+            <div class="validation-error" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Username error</div>
+            <label for="password">Enter password:</label>
+            <input id="password" name="password" th:field="*{password}" required>
+            <div class="validation-error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password error</div>
+            <button class="membership-button" type="submit">Join</button>
+        </form>
+    </div>
+</main>
+</body>
+</html>

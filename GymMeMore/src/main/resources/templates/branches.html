@@ -1,18 +1,17 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang= xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
 <head>
-    <title>Branches</title>
+    <title layout:fragment="title">Branches - Gym me more</title>
     <link rel="stylesheet" th:href="@{/styles.css}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
 </head>
 <body>
-<header>
-    <a th:href="@{/home}" style="text-decoration: none; color: black;">
-        <h1 style="display: inline-block;">&larr; Back to homepage</h1>
-    </a>
-    <h1>Gym Branches</h1>
+<main layout:fragment="content">
+    <h1 style="color:white;">Gym Branches</h1>
     <div class="city-select">
         <form method="post" action="/gym-me-more/home/branches">
             <label for="city-filter"><i>Select your city:</i></label>
@@ -23,8 +22,6 @@
             <button type="submit" class="branches-button">explore</button>
         </form>
     </div>
-</header>
-<main>
      <div th:unless="${branches}">
          <p> No city selected.</p>
      </div>

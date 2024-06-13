@@ -8,8 +8,6 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 @Service
 public class GoogleMapsService {
@@ -44,14 +42,12 @@ public class GoogleMapsService {
     public String getRoute(String origin, String destination) throws IOException {
         JsonNode directions = getDirections(origin, destination);
 
-        // Check if routes array exists and is not empty
         if (!directions.has("routes") || !directions.path("routes").isArray() || directions.path("routes").size() == 0) {
             throw new IOException("No routes found in the response from Google Maps API");
         }
 
         JsonNode route = directions.path("routes").get(0);
 
-        // Check if legs array exists and is not empty
         if (!route.has("legs") || !route.path("legs").isArray() || route.path("legs").size() == 0) {
             throw new IOException("No legs found in the route from Google Maps API");
         }
@@ -94,7 +90,6 @@ public class GoogleMapsService {
     public String generateStaticMapWithRoute(String origin, String destination) throws IOException {
         JsonNode directions = getDirections(origin, destination);
 
-        // Check if routes array exists and is not empty
         if (!directions.has("routes") || !directions.path("routes").isArray() || directions.path("routes").size() == 0) {
             throw new IOException("No routes found in the response from Google Maps API");
         }

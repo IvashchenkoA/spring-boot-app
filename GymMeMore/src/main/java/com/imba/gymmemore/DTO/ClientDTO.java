@@ -1,51 +1,26 @@
-package com.imba.gymmemore.models;
+package com.imba.gymmemore.DTO;
 
 import com.imba.gymmemore.validation.ValidPassword;
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
-import java.util.List;
-import java.util.Set;
-
-@Entity
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "Person_type")
-public class Person {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long Id;
+public class ClientDTO {
     @Size(min = 3, max = 25)
     @NotNull(message = "provide first name.")
     private String firstName;
     @Email(message = "email must be valid.")
+    @Column(unique = true)
     private String email;
     @Size(min = 3, max = 20)
-    @NotNull
+    @NotNull(message = "provide username.")
+    @Column(unique = true)
     private String username;
     @NotNull
     @Size(min = 8, max = 20)
     @ValidPassword
     private String password;
-
-    public Person(String firstName, String email, String username, String password) {
-        this.firstName = firstName;
-        this.email = email;
-        this.username = username;
-        this.password = password;
-    }
-
-    public Person() {
-    }
-
-    public Long getId() {
-        return Id;
-    }
-
-    public void setId(Long id) {
-        Id = id;
-    }
 
     public @Size(min = 3, max = 25) @NotNull(message = "provide first name.") String getFirstName() {
         return firstName;

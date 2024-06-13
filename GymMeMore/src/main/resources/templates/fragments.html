@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="myHead">
+    <meta charset="UTF-8">
+    <title th:text="${title}"></title>
+    <link rel="stylesheet" type="text/css" th:href="@{/styles.css}" href="../static/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+</head>
+<body>
+<header class="center" th:fragment="myHeader">
+    <h1><a class="home-title" th:href="@{/home}">#GymMeMore!</a></h1>
+    <nav>
+        <ul>
+            <li><a th:href="@{/home/branches}">Branches</a></li>
+            <li><a th:href="@{/membership}">Memberships</a></li>
+        </ul>
+    </nav>
+    <a th:href="@{/account}" style="position: absolute; top: 10px; right: 10px;">Account</a>
+</header>
+<footer th:fragment="myFooter">
+    <p>&copy; 2024 Gym Me More. All rights reserved.</p>
+</footer>
+</body>
+</html>

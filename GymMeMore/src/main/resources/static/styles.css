@@ -33,7 +33,38 @@ nav ul li a {
     color: white;
     text-decoration: none;
 }
+.form-container {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    width:500px;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
 
+label {
+    text-align: left;
+    margin: 0 0 5px 5px;
+}
+
+input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.form{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.membership-info h2 {
+    margin: 0;
+    padding: 10px 0;
+}
 main {
     padding: 20px;
     text-align: center;
@@ -69,14 +100,102 @@ img {
     max-width: 100%;
     height: auto;
 }
+.gym-img{
+    max-width: 60%;
+    height: auto;
+}
 .branch-link {
     color: #6791b1;
     font-size: 30px;
     text-decoration: none;
 }
+.branch-name{
+    color:white;
+    font-size: 40px;
+}
+.branch-info{
+    font-size: 15px;
+    color:  #260f3c;
+}
+.home-title{
+    color: #ffffff;
+    font-size: 45px;
+    text-decoration: none;
+    background-color: #260f3c;
+}
 
+.membership-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.membership-list {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0;
+    list-style: none;
+    justify-content: center;
+}
+
+.membership-list li {
+    margin: 10px;
+    display: flex;
+}
+
+.membership-block {
+    background-color: #f0f0f0;
+    padding: 20px;
+    border: 1px solid #ccc;
+    margin: 10px;
+    width: 300px;
+    box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.membership-button{
+    font-family: "Bebas Neue", sans-serif;
+    background-color: #224468;
+    color: white;
+    padding: 30px 100px;
+    margin: 17px 0;
+    font-size: 30px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+}
+.membership-button:hover{
+    font-size:35px ;
+    padding: 35px 115px;
+    background-color: #19334e;
+}
+.validation-error {
+    color: red;
+    font-size: 0.8em;
+    margin-top: 5px;
+}
+
+.membership-block h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.membership-block p {
+    font-size: 16px;
+    color: #333;
+}
+.home-title:hover{
+    text-decoration: underline;
+}
 .branch-link:hover {
     text-decoration: underline;
+}
+.route-title{
+    background-color: white;
+    font-size: 35px;
 }
 .select-city{
     font-family: "Bebas Neue", sans-serif;
