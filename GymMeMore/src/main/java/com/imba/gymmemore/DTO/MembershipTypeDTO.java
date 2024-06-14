@@ -1,17 +1,32 @@
 package com.imba.gymmemore.DTO;
 
+import com.imba.gymmemore.models.MembershipType;
+
 public class MembershipTypeDTO {
+    private Long id;
     private String name;
     private String description;
     private int price;
 
+
     public MembershipTypeDTO() {
     }
-
-    public MembershipTypeDTO(String name, String description, int price) {
+    public MembershipType map(){
+        return new MembershipType(this.getDescription(),this.getName(), this.getPrice());
+    }
+    public MembershipTypeDTO(Long id,String name, String description, int price) {
+        this.id = id;
         this.name = name;
         this.description = description;
         this.price = price;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {

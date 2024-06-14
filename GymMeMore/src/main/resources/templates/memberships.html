@@ -23,6 +23,7 @@
                         <h2 th:text="${m.name}">Membership Name</h2>
                         <p th:text="${m.description}">Membership Description</p>
                         <form th:action="@{/join}" method="get">
+                            <input type="hidden" name="id" th:value="${m.id}">
                             <input type="hidden" name="name" th:value="${m.name}">
                             <input type="hidden" name="description" th:value="${m.description}">
                             <input type="hidden" name="price" th:value="${m.price}">

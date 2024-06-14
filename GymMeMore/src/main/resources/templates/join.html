@@ -13,11 +13,11 @@
 <main layout:fragment="content">
     <div class="form-container">
         <div class="membership-info">
-            <h2 th:text="${membershipType.name}">Membership Name</h2>
             <p th:text="${membershipType.description}">Membership Description</p>
             <p th:text="'Chosen fare: zł' + ${membershipType.price}">Monthly Rate</p>
         </div>
         <form class="form" th:action="@{/join}" method="post" th:object="${client}">
+            <input type="hidden" name="membershipType.id" th:value="${membershipType.id}"/>
             <label for="firstname">Enter first name:</label>
             <input id="firstname" name="firstname" th:field="*{firstName}" required>
             <div class="validation-error" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}">First name error</div>

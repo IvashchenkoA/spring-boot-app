@@ -13,23 +13,30 @@ public class Client extends Person{
     @ManyToOne
     private ProfLevel profLevel;
     @OneToOne
+    @JoinColumn(name = "bankAccount_Id", unique = true)
     private BankAccount bankAccount;
-    @OneToOne
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "membership_Id", unique = true)
     private Membership membership;
     @OneToMany(mappedBy = "client", fetch = FetchType.EAGER)
     private List<IndividualSession> individualSessions;
     @OneToMany(mappedBy = "client", fetch = FetchType.EAGER)
     private List<Client_GroupClass> client_groupClasses;
 
+    public Client() {
+    }
+
     public Client(String firstName, String email, String username, String password) {
         super(firstName, email, username, password);
     }
 
-    public Client(LocalDate joinDate, int classesCount) {
-        this.joinDate = joinDate;
-        this.classesCount = classesCount;
+    public Client(String firstName, String email, String username, String password,
+                  Membership membership,BankAccount bankAccount, ProfLevel profLevel) {
+        super(firstName, email, username, password);
+        this.bankAccount = bankAccount;
+        this.membership = membership;
+        this.profLevel = profLevel;
     }
-
     public LocalDate getJoinDate() {
         return joinDate;
     }

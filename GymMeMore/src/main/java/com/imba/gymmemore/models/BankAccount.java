@@ -1,18 +1,28 @@
 package com.imba.gymmemore.models;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 @Entity
 public class BankAccount {
     @jakarta.persistence.Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long Id;
+    @Size(min = 2, max = 25)
+    @NotNull
     private String number;
+
     private double amount;
     @OneToOne
     private Client client;
 
     public BankAccount() {
+    }
+
+    public BankAccount(String number, double amount) {
+        this.number = number;
+        this.amount = amount;
     }
 
     public Long getId() {

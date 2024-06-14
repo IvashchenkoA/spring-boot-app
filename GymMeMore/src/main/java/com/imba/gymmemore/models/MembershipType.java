@@ -15,6 +15,15 @@ public class MembershipType {
     @OneToMany(mappedBy = "membershipType", fetch = FetchType.EAGER)
     private List<Membership> memberships;
 
+    public MembershipType() {
+    }
+
+    public MembershipType(String name, String description, int price) {
+        this.name = name;
+        this.description = description;
+        this.price = price;
+    }
+
     public Long getId() {
         return id;
     }

@@ -1,0 +1,5 @@
+--INSERT INTO PROF_LEVEL(description, name)
+--VALUES('you are with us for almost 1 month!','Beginner'),
+  --      ('you are with us for almost 6 months! Good job!','Intermediate'),
+  --      ('you are with us for almost 1 year! We are happy to serve you!','Experienced'),
+    --     ('you are with us for more that a year! You are a real #gymmemore enjoyer!','Pro');

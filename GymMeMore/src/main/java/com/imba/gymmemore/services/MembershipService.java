@@ -19,7 +19,7 @@ public class MembershipService {
     public List<MembershipTypeDTO> getAllMembershipTypes(){
         List<MembershipTypeDTO> list = new ArrayList<>();
         for(MembershipType m : membershipTypeRepository.findAll()){
-            MembershipTypeDTO dto = new MembershipTypeDTO(m.getName(),m.getDescription(),m.getPrice());
+            MembershipTypeDTO dto = new MembershipTypeDTO(m.getId(),m.getName(),m.getDescription(),m.getPrice());
             list.add(dto);
         }
         return list;

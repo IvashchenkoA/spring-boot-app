@@ -1,5 +1,6 @@
 package com.imba.gymmemore.controllers;
 
+import com.imba.gymmemore.DTO.ClientDTO;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -9,13 +10,14 @@ import org.springframework.web.bind.annotation.*;
 public class ClientAccountController {
 
     @GetMapping
-    public String getAcc(Model model){
+    public String account(Model model, @ModelAttribute("newClient") ClientDTO newClientDTO) {
+        model.addAttribute("newClient", newClientDTO);
         return "account";
     }
-
     @GetMapping("/details")
-    public String getDetails(Model model){
-        return "acc-details";
+    public String getDetails(Model model, @RequestParam("id") Long id){
+
+        return "account-details";
     }
 
     @GetMapping("/detalis/resign")
