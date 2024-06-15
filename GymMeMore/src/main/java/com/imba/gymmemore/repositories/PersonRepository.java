@@ -8,5 +8,4 @@ public interface PersonRepository extends CrudRepository<Person, Long> {
     @Query(value = "SELECT * FROM Person WHERE USERNAME=:username", nativeQuery = true)
     Person findClientByUsername(String username);
     Person findClientById(Long id);
-
 }

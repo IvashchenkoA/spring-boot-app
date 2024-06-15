@@ -1,6 +1,7 @@
 package com.imba.gymmemore.services;
 
 import com.imba.gymmemore.DTO.AccountDetailsDTO;
+import com.imba.gymmemore.DTO.ClassDetailsDTO;
 import com.imba.gymmemore.DTO.GroupClassDTO;
 import com.imba.gymmemore.models.*;
 import com.imba.gymmemore.repositories.*;
@@ -8,8 +9,15 @@ import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class ClientAccountService {
@@ -18,13 +26,17 @@ public class ClientAccountService {
     private final BankAccountRepository bankAccountRepository;
     private final MembershipRepository membershipRepository;
     private final GroupClassRepository groupClassRepository;
+    private final ClassTypeRepository classTypeRepository;
+    private final Client_GroupClassRepository clientGroupClassRepository;
 
-    public ClientAccountService(GroupClassRepository groupClassRepository, ProfLevelRepository profLevelRepository, PersonRepository personRepository, BankAccountRepository bankAccountRepository, MembershipRepository membershipRepository) {
+    public ClientAccountService(ClassTypeRepository classTypeRepository, GroupClassRepository groupClassRepository, ProfLevelRepository profLevelRepository, PersonRepository personRepository, BankAccountRepository bankAccountRepository, MembershipRepository membershipRepository, Client_GroupClassRepository clientGroupClassRepository) {
+        this.classTypeRepository = classTypeRepository;
         this.groupClassRepository = groupClassRepository;
         this.profLevelRepository = profLevelRepository;
         this.personRepository = personRepository;
         this.bankAccountRepository = bankAccountRepository;
         this.membershipRepository = membershipRepository;
+        this.clientGroupClassRepository = clientGroupClassRepository;
     }
 
     public AccountDetailsDTO getAccountDetailsById(Long id){
@@ -48,23 +60,36 @@ public class ClientAccountService {
         return schedule;
     }
 
+
+    public Map<String, GroupClass> getGroupClassesForWeek(LocalDate startDate, LocalDate endDate) {
+        List<GroupClass> groupClasses = groupClassRepository.findAllByScheduledTimeBetween(startDate.atStartOfDay(), endDate.atTime(LocalTime.MAX));
+        return groupClasses.stream()
+                .collect(Collectors.toMap(
+                        gc -> gc.getScheduledTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")),
+                        gc -> gc
+                ));
+    }
     private String getDayHourKey(LocalDateTime scheduledTime) {
         String dayOfWeek = scheduledTime.getDayOfWeek().toString();
         String hour = scheduledTime.getHour() + ":00";
         return dayOfWeek + "_" + hour;
     }
 
-    public ClassDetailsDTO getClassDetails(Long classId) {
-        GroupClass groupClass = groupClassRepository.findById(classId).orElseThrow(() -> new ResourceNotFoundException("Class not found"));
-        ClassType classType = classTypeRepository.findById(groupClass.getClassTypeId()).orElseThrow(() -> new ResourceNotFoundException("Class type not found"));
-        Coach coach = coachRepository.findById(groupClass.getCoachId()).orElseThrow(() -> new ResourceNotFoundException("Coach not found"));
-
-        return new ClassDetailsDTO(classId, coach.getName(), coach.getBranch(), groupClass.getPopularity(), groupClass.getRating());
+    public ClassDetailsDTO getClassDetails(Long classId) throws IOException {
+        GroupClass groupClass = groupClassRepository.findById(classId).orElseThrow(() -> new IOException("Class not found"));
+        ClassType classType = classTypeRepository.findById(groupClass.getClassType().getId()).orElseThrow(() -> new IOException("Class type not found"));
+        Coach coach = (Coach) personRepository.findById(groupClass.getCoach().getId()).orElseThrow(() -> new IOException("Coach not found"));
+        return new ClassDetailsDTO(classId, coach.getFirstName(), coach.getBranch().getName(), groupClass.getPopularity(), groupClass.getRating());
     }
-
+    @Transactional
     public boolean signUpForClass(Long classId, String username) {
-        Long clientId = clientRepository.findByUsername(username).getId();
-        ClientGroupClass clientGroupClass = new ClientGroupClass(classId, clientId);
+        Client client = (Client)personRepository.findClientByUsername(username);
+        if (client == null) {
+            throw new RuntimeException("Client not found with username: " + username);
+        }
+        GroupClass groupClass = groupClassRepository.findById(classId)
+                .orElseThrow(() -> new RuntimeException("Group class not found with ID: " + classId));
+        Client_GroupClass clientGroupClass = new Client_GroupClass(client, groupClass);
         clientGroupClassRepository.save(clientGroupClass);
         return true;
     }

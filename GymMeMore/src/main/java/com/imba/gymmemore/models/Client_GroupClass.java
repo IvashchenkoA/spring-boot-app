@@ -13,4 +13,12 @@ public class Client_GroupClass {
     private GroupClass groupClass;
     @OneToOne
     private Review review;
+
+    public Client_GroupClass() {
+    }
+
+    public Client_GroupClass(Client client, GroupClass groupClass) {
+        this.client = client;
+        this.groupClass = groupClass;
+    }
 }
