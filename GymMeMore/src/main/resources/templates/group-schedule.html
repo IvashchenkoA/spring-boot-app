@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title layout:fragment="title">Group Schedule - Gym me more</title>
+    <link rel="stylesheet" th:href="@{/styles.css}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+</head>
+<body class="body">
+<main layout:fragment="content">
+    <div class="schedule-header">
+        <h1 style="color:white;">Group Schedule</h1>
+    </div>
+    <table class="schedule-table">
+        <thead>
+        <tr>
+            <th>Time</th>
+            <th th:each="day : ${daysOfWeek}" th:text="${day}"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="hour : ${hours}">
+            <td th:text="${hour}"></td>
+            <td th:each="day : ${daysOfWeek}">
+                <div th:if="${groupSchedule[day + '_' + hour] != null}" th:object="${groupSchedule[day + '_' + hour]}">
+                    <span th:text="*{classType.name}"></span><br>
+                    <form th:action="@{/class-details}" method="get">
+                        <input type="hidden" name="classId" th:value="*{id}">
+                        <button type="submit">View Details</button>
+                    </form>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div th:if="${classDetails != null}">
+        <h2>Class Details</h2>
+        <p>Coach: <span th:text="${classDetails.coachName}"></span></p>
+        <p>Branch: <span th:text="${classDetails.coachBranch}"></span></p>
+        <p>Popularity: <span th:text="${classDetails.popularity}"></span></p>
+        <p>Rating: <span th:text="${classDetails.rating}"></span></p>
+        <form th:action="@{/sign-up}" method="post">
+            <input type="hidden" name="classId" th:value="${classDetails.classId}">
+            <button type="submit">Sign Up</button>
+        </form>
+    </div>
+</main>
+</body>
+</html>

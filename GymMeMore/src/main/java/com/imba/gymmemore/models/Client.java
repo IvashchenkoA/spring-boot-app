@@ -11,6 +11,7 @@ public class Client extends Person{
     private LocalDate joinDate;
     private int classesCount;
     @ManyToOne
+    @JoinColumn(name = "prof_level_id")
     private ProfLevel profLevel;
     @OneToOne
     @JoinColumn(name = "bankAccount_Id", unique = true)

@@ -15,11 +15,11 @@
         <h1 style="color:white;" th:text="|Welcome, ${newClient.firstName}!|">First Name</h1>
     </div>
     <div class="menu-container">
-        <form th:action="@{/details}" method="get">
+        <form th:action="@{/account/details}" method="get">
             <input type="hidden" name="id" th:value="${newClient.id}">
             <button class="menu-button" type="submit">Account Details</button>
         </form>
-        <form th:action="@{/group-schedule}" method="get">
+        <form th:action="@{/account/group-schedule}" method="get">
             <input type="hidden" name="id" th:value="${newClient.id}">
             <button class="menu-button" type="submit">Group Schedule</button>
         </form>

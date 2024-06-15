@@ -11,7 +11,26 @@
 <body class="body">
 <main layout:fragment="content">
     <div class="account-header">
-        <h1 style="color:white;" th:text="${newClient.firstName}!">First Name</h1>
+        <h1 style="color:white;" th:text="${details.name} + '!'">First Name</h1>
+    </div>
+    <div class="details-container">
+        <p th:text="'Account Number: ' + ${details.bankAccount}"></p>
+        <p th:text="'Membership Type: ' + ${details.membershipName}"></p>
+        <p th:text="'Membership Expiry Date: ' + ${details.membershipExpDate}"></p>
+        <p th:text="'Proficiency Level: ' + ${details.level}"></p>
+        <p th:text="'Level Description: ' + ${details.levelDescr}"></p>
+        <p th:text="'Classes Count: ' + ${details.classCount}"></p>
+    </div>
+    <div class="resign-container">
+        <form th:action="@{/account/resign}" method="post">
+            <input type="hidden" name="id" th:value="${id}" />
+            <label for="password">Confirm Password:</label>
+            <input type="password" name="password" id="password" required />
+            <button type="submit">Resign from Membership</button>
+        </form>
+    </div>
+    <div th:if="${error}">
+        <p style="color: red;" th:text="${error}"></p>
     </div>
 </main>
 </body>
