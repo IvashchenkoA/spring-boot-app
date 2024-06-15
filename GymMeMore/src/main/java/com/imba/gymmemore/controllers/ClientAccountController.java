@@ -1,12 +1,11 @@
 package com.imba.gymmemore.controllers;
 
-import com.imba.gymmemore.DTO.AccountDetailsDTO;
-import com.imba.gymmemore.DTO.ClassDetailsDTO;
-import com.imba.gymmemore.DTO.ClientDTO;
-import com.imba.gymmemore.DTO.GroupClassDTO;
+import com.imba.gymmemore.DTO.*;
+import com.imba.gymmemore.models.Coach;
 import com.imba.gymmemore.models.GroupClass;
 import com.imba.gymmemore.services.ClientAccountService;
 import org.springframework.format.annotation.DateTimeFormat;
+//import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +15,7 @@ import java.io.IOException;
 import java.security.Principal;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -32,11 +32,13 @@ public class ClientAccountController {
     }
 
     @GetMapping
+    //@PreAuthorize("hasRole('CLIENT')")
     public String account(Model model, @ModelAttribute("newClient") ClientDTO newClientDTO) {
         model.addAttribute("newClient", newClientDTO);
         return "account";
     }
     @GetMapping("/details")
+   // @PreAuthorize("hasRole('CLIENT')")
     public String getDetails(Model model, @RequestParam("id") Long id){
         AccountDetailsDTO details = clientAccountService.getAccountDetailsById(id);
         model.addAttribute("details", details);
@@ -45,6 +47,7 @@ public class ClientAccountController {
     }
 
     @PostMapping("/resign")
+    //@PreAuthorize("hasRole('CLIENT')")
     public String resignMembership(@RequestParam("id") Long id, @RequestParam("password") String password, Model model) {
         boolean success = clientAccountService.resignMembership(id, password);
         if (success) {
@@ -55,76 +58,106 @@ public class ClientAccountController {
         }
     }
 
-    @GetMapping("/{weekOffset}")
-    public String getSchedule(@PathVariable("weekOffset") int weekOffset, Model model) {
-        LocalDate currentDate = LocalDate.now().plusWeeks(weekOffset);
-        List<GroupClass> schedule = clientAccountService.getGroupClassesForWeek(currentDate);
-        model.addAttribute("schedule", schedule);
-        model.addAttribute("weekOffset", weekOffset);
+    @GetMapping("/group-schedule")
+   // @PreAuthorize("hasRole('CLIENT')")
+    public String getGroupSchedule(Model model, @RequestParam("id") Long id) {
+        model.addAttribute("classes", clientAccountService.getFutureClasses());
+        model.addAttribute("clientId", id);
         return "group-schedule";
     }
 
-    @GetMapping("/class-details")
-    public String getClassDetails(@RequestParam Long classId, Model model) throws IOException {
-        ClassDetailsDTO classDetails = clientAccountService.getClassDetails(classId);
-        model.addAttribute("classDetails", classDetails);
-        return "group-schedule";
-    }
-
-    @PostMapping("/sign-up")
-    public String signUpForClass(@RequestParam Long classId, Principal principal, RedirectAttributes redirectAttributes) {
-        String username = principal.getName();
-        boolean success = clientAccountService.signUpForClass(classId, username);
-        if (success) {
-            redirectAttributes.addFlashAttribute("message", "Successfully signed up for the class");
-        } else {
-            redirectAttributes.addFlashAttribute("message", "Error signing up for the class");
+    @GetMapping("/group-schedule/details/{classId}")
+   // @PreAuthorize("hasRole('CLIENT')")
+    public String getClassDetails(@PathVariable("classId") Long classId, @RequestParam("clientId") Long clId, Model model) {
+        try {
+            model.addAttribute("classDetails", clientAccountService.getClassDetails(classId));
+            model.addAttribute("clientId", clId);
+        } catch (IOException e) {
+            model.addAttribute("error", "Class not found");
+            return "class-details";
         }
-        return "redirect:/group-schedule";
-    }
-    @GetMapping("/groupSchedule/{id}")
-    public String getClassDetails(@PathVariable Long id){
         return "class-details";
     }
-
-    @PostMapping("/groupSchedule")
-    public String signForGroupClass(){
-        return "redirect:/account/groupClass";
+    @PostMapping("/group-schedule/signup")
+    //@PreAuthorize("hasRole('CLIENT')")
+    public String enrollInClass(@RequestParam("clientId") Long clientId, @RequestParam("classId") Long classId,RedirectAttributes redirectAttributes, Model model) throws IOException {
+        boolean enrolled = false;
+        try {
+            enrolled = clientAccountService.signUpForClass(clientId, classId);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        if (enrolled) {
+            redirectAttributes.addFlashAttribute("newClient", clientAccountService.getClientById(clientId));
+            return "redirect:/account";
+        } else {
+            model.addAttribute("classDetails", clientAccountService.getClassDetails(classId));
+            model.addAttribute("error", "the class is already full.");
+            return "class-details";
+        }
     }
-    @GetMapping("/groupClass")
-    public String confirmGrClass(){
-        return "class-confirm";
-    }
-    @GetMapping("/yourSchedule")
-    public String getYourSchedule(Model model){
+    @GetMapping("/your-schedule")
+    //@PreAuthorize("hasRole('CLIENT')")
+    public String getPersonalSchedule(@RequestParam Long id, Model model) {
+        model.addAttribute("classes", clientAccountService.getFutureClassesForClient(id));
+        model.addAttribute("clientId", id);
         return "your-schedule";
     }
-    @GetMapping("/yourSchedule/review")
-    public String leaveReview(){
-        return "review";
+    @GetMapping("/leave-review")
+   // @PreAuthorize("hasRole('CLIENT')")
+    public String leaveReview(@RequestParam("clientId") Long id, Model model) {
+        List<ReviewDTO> reviews = clientAccountService.getPastClassesForReview(id);
+        model.addAttribute("clientId", id);
+        if (reviews.isEmpty()) {
+            model.addAttribute("message", "No reviews to leave.");
+        } else {
+            model.addAttribute("reviews", reviews);
+        }
+        return "leave-review";
     }
-    @PostMapping("/yourSchedule/review")
-    public String submitReview(/*ReviewDTO reviewDTO*/){
-        return "redirect:/account/yourSchedule";
+
+    @PostMapping("/submit-review")
+   // @PreAuthorize("hasRole('CLIENT')")
+    public String submitReview(@RequestParam Long clientId, @RequestParam Long classId, @RequestParam int rating, @RequestParam(required = false) String feedback, Model model) {
+        try {
+            clientAccountService.submitReview(clientId, classId, rating, feedback);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return "redirect:/account/your-schedule?id=" + clientId;
     }
-    @GetMapping("/yourSchedule/resign")
-    public String getResignPage(){
-        return "resign-class";
-    }
-    @DeleteMapping("/yourSchedule/resign")
-    public String resignClass(@RequestParam Long id){
-        return "redirect:/account/yourSchedule";
-    }
+
+
     @GetMapping("/indiv")
-    public String scheduleIndiv(){
-        return "indiv-class";
+   // @PreAuthorize("hasRole('CLIENT')")
+    public String scheduleIndividualClass(@RequestParam("id") Long id, Model model) {
+        model.addAttribute("clientId", id);
+        return "schedule-indiv";
     }
-    @PostMapping("/indiv")
-    public String submitIndiv(){
-        return "redirect:/account";
+
+    @PostMapping("/indiv/show-available-coaches")
+   // @PreAuthorize("hasRole('CLIENT')")
+    public String showAvailableCoaches(@RequestParam Long clientId, @RequestParam String date, @RequestParam String time, Model model) {
+        LocalDateTime startTime = LocalDateTime.parse(date + "T" + time);
+        LocalDateTime endTime = startTime.plusHours(1);
+
+        List<Coach> availableCoaches = clientAccountService.getAvailableCoaches(startTime, endTime);
+
+        model.addAttribute("coaches", availableCoaches);
+        model.addAttribute("clientId", clientId);
+        model.addAttribute("startTime", startTime.toString());
+        return "available-coaches";
     }
-    @GetMapping("/offers")
+
+    @PostMapping("/indiv/schedule")
+   // @PreAuthorize("hasRole('CLIENT')")
+    public String scheduleSession(@RequestParam Long clientId, @RequestParam Long coachId, @RequestParam String startTime, Model model) {
+        LocalDateTime scheduledTime = LocalDateTime.parse(startTime);
+        clientAccountService.scheduleIndividualSession(clientId, coachId, scheduledTime);
+        return "redirect:/account/your-schedule?id=" + clientId;
+    }
+    /*@GetMapping("/offers")
     public String getOffers(){
         return "offers";
-    }
+    }*/
 }

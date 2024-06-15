@@ -1,0 +1,30 @@
+!DOCTYPE html>
+<html lang= "eng" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title layout:fragment="title">Your schedule - Gym me more</title>
+    <link rel="stylesheet" th:href="@{/styles.css}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+</head>
+<body class="body">
+<main layout:fragment="content">
+<h1 style="color:white;">Select Coach</h1>
+<ul>
+    <li th:each="coach : ${coaches}">
+        <p th:text="${coach.firstName}"></p>
+        <p th:text="'Branch: ' + ${coach.branch.name}"></p>
+        <p th:text="'Rating: ' + ${coach.rating}"></p>
+        <form th:action="@{/account/indiv/schedule}" method="post">
+            <input type="hidden" name="clientId" th:value="${clientId}">
+            <input type="hidden" name="coachId" th:value="${coach.id}">
+            <input type="hidden" name="startTime" th:value="${startTime}">
+            <button class="branches-button" type="submit">Select</button>
+        </form>
+    </li>
+</ul>
+</main>
+</body>
+</html>

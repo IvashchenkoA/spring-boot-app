@@ -1,57 +1,70 @@
 package com.imba.gymmemore.DTO;
 
 public class ClassDetailsDTO {
-    private Long classId;
-    private String coachName;
-    private String coachBranch;
-    private double popularity;
-    private double rating;
+    private Long id;
+    private String coachFirstName;
+    private String branchName;
+    private String classDescription;
+    private double classRating;
+    private double classPopularity;
+    private double coachRating;
 
-    public ClassDetailsDTO(Long classId, String coachName, String coachBranch, double popularity, double rating) {
-        this.classId = classId;
-        this.coachName = coachName;
-        this.coachBranch = coachBranch;
-        this.popularity = popularity;
-        this.rating = rating;
+    public ClassDetailsDTO() {
     }
 
-    public Long getClassId() {
-        return classId;
+    public Long getId() {
+        return id;
     }
 
-    public void setClassId(Long classId) {
-        this.classId = classId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public String getCoachName() {
-        return coachName;
+    public String getCoachFirstName() {
+        return coachFirstName;
     }
 
-    public void setCoachName(String coachName) {
-        this.coachName = coachName;
+    public void setCoachFirstName(String coachFirstName) {
+        this.coachFirstName = coachFirstName;
     }
 
-    public String getCoachBranch() {
-        return coachBranch;
+    public String getBranchName() {
+        return branchName;
     }
 
-    public void setCoachBranch(String coachBranch) {
-        this.coachBranch = coachBranch;
+    public void setBranchName(String branchName) {
+        this.branchName = branchName;
     }
 
-    public double getPopularity() {
-        return popularity;
+    public String getClassDescription() {
+        return classDescription;
     }
 
-    public void setPopularity(double popularity) {
-        this.popularity = popularity;
+    public void setClassDescription(String classDescription) {
+        this.classDescription = classDescription;
     }
 
-    public double getRating() {
-        return rating;
+    public double getClassRating() {
+        return classRating;
     }
 
-    public void setRating(double rating) {
-        this.rating = rating;
+    public void setClassRating(double classRating) {
+        this.classRating = classRating;
+    }
+
+    public double getClassPopularity() {
+        return classPopularity;
+    }
+
+    public void setClassPopularity(double classPopularity) {
+        this.classPopularity = classPopularity;
+    }
+
+    public double getCoachRating() {
+        return coachRating;
+    }
+
+    public void setCoachRating(double coachRating) {
+        this.coachRating = coachRating;
     }
 }

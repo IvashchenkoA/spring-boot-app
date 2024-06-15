@@ -23,11 +23,11 @@
             <input type="hidden" name="id" th:value="${newClient.id}">
             <button class="menu-button" type="submit">Group Schedule</button>
         </form>
-        <form th:action="@{/your-schedule}" method="get">
+        <form th:action="@{/account/your-schedule}" method="get">
             <input type="hidden" name="id" th:value="${newClient.id}">
             <button class="menu-button" type="submit">Personal Schedule</button>
         </form>
-        <form th:action="@{/indiv}" method="get">
+        <form th:action="@{/account/indiv}" method="get">
             <input type="hidden" name="id" th:value="${newClient.id}">
             <button class="menu-button" type="submit">Schedule an Individual Class</button>
         </form>

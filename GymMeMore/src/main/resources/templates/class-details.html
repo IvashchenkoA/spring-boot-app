@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="eng" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title layout:fragment="title">Group class details - Gym me more</title>
+    <link rel="stylesheet" th:href="@{/styles.css}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+</head>
+<body class="body">
+<main layout:fragment="content">
+<h1  style="color:white;">Class Details</h1>
+<div>
+    <p><strong>Coach First Name:</strong> <span th:text="${classDetails.coachFirstName}"></span></p>
+    <p><strong>Branch Name:</strong> <span th:text="${classDetails.branchName}"></span></p>
+    <p><strong>Description:</strong> <span th:text="${classDetails.classDescription}"></span></p>
+    <p><strong>Class Rating:</strong> <span th:text="${classDetails.classRating}"></span></p>
+    <p><strong>Class Popularity:</strong> <span th:text="${classDetails.classPopularity}"></span></p>
+    <p><strong>Coach Rating:</strong> <span th:text="${classDetails.coachRating}"></span></p>
+</div>
+<form th:action="@{/account/group-schedule/signup}" method="post">
+    <input type="hidden" name="clientId" th:value="${clientId}">
+    <input type="hidden" name="classId" th:value="${classDetails.id}">
+    <button class="branches-button" type="submit">Select this Class</button>
+    <div th:if="${error}">
+        <p style="color: red;" th:text="${error}"></p>
+    </div>
+</form>
+</main>
+</body>
+</html>

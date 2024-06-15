@@ -21,4 +21,36 @@ public class Client_GroupClass {
         this.client = client;
         this.groupClass = groupClass;
     }
+
+    public Long getId() {
+        return Id;
+    }
+
+    public void setId(Long id) {
+        Id = id;
+    }
+
+    public Client getClient() {
+        return client;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
+    }
+
+    public GroupClass getGroupClass() {
+        return groupClass;
+    }
+
+    public void setGroupClass(GroupClass groupClass) {
+        this.groupClass = groupClass;
+    }
+
+    public Review getReview() {
+        return review;
+    }
+
+    public void setReview(Review review) {
+        this.review = review;
+    }
 }

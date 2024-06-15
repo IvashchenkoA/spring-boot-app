@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang= xmlns:th="http://www.thymeleaf.org"
+<html lang= "eng" xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout}">
 <head>
-    <title layout:fragment="title">Group schedule - Gym me more</title>
+    <title layout:fragment="title">Your schedule - Gym me more</title>
     <link rel="stylesheet" th:href="@{/styles.css}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -11,16 +11,20 @@
 </head>
 <body class="body">
 <main layout:fragment="content">
-<h1  style="color:white;">Group Schedule</h1>
+<h1  style="color:white;">Personal Schedule</h1>
 <ul>
     <li th:each="class : ${classes}">
         <p th:text="${class.scheduledTime + ' ' + class.className}"></p>
         <form th:action="@{/account/group-schedule/details/{id}(id=${class.id})}" method="get">
             <input type="hidden" name="clientId" th:value="${clientId}">
-            <button class="branches-button" type="submit">see details</button>
+            <button class="branches-button" type="submit">See Details</button>
         </form>
     </li>
 </ul>
+<form th:action="@{/account/leave-review(id=${clientId})}" method="get">
+    <input type="hidden" name="clientId" th:value="${clientId}">
+    <button class="branches-button"  type="submit">Leave review</button>
+</form>
 </main>
 </body>
 </html>

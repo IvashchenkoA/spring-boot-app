@@ -5,11 +5,14 @@ import com.imba.gymmemore.DTO.LoginDTO;
 import com.imba.gymmemore.DTO.MembershipTypeDTO;
 import com.imba.gymmemore.models.*;
 import com.imba.gymmemore.repositories.*;
+import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.security.SecureRandom;
 import java.time.LocalDate;
+import java.util.Set;
 
 @Service
 public class AuthorizationService {
@@ -22,8 +25,21 @@ public class AuthorizationService {
     private static final int ACCOUNT_NUMBER_LENGTH = 25;
     private static final SecureRandom random = new SecureRandom();
 
+    //private final AppUserRepository appUserRepository;
 
-    public AuthorizationService(PersonRepository personRepository,ClientRepository clientRepository, BankAccountRepository bankAccountRepository,
+    //private final PasswordEncoder passwordEncoder;
+
+
+
+    public ClientDTO authorizeClient(LoginDTO dto) {
+        Person client = personRepository.findClientByUsername(dto.getUsername());
+        if (client == null || !client.getPassword().equals(dto.getPassword())) {
+            return null;
+        }
+        return new ClientDTO((Client) client);
+    }
+
+    public AuthorizationService(PersonRepository personRepository, ClientRepository clientRepository, BankAccountRepository bankAccountRepository,
                                 MembershipRepository membershipRepository, MembershipTypeRepository membershipTypeRepository, ProfLevelRepository profLevelRepository) {
         this.personRepository = personRepository;
         this.clientRepository = clientRepository;
@@ -31,6 +47,8 @@ public class AuthorizationService {
         this.membershipRepository = membershipRepository;
         this.membershipTypeRepository = membershipTypeRepository;
         this.profLevelRepository = profLevelRepository;
+        //this.appUserRepository = appUserRepository;
+        //this.passwordEncoder = passwordEncoder;
     }
 
     public String generateBankAccountNumber() {
@@ -49,13 +67,7 @@ public class AuthorizationService {
         }
         return accountNumber.toString();
     }
-    public ClientDTO authorizeClient(LoginDTO dto) {
-        Person client = personRepository.findClientByUsername(dto.getUsername());
-        if (client == null || !client.getPassword().equals(dto.getPassword())) {
-            return null;
-        }
-        return new ClientDTO((Client) client);
-    }
+
 
     public MembershipTypeDTO getMembershipTypeById(Long id){
         MembershipType m = membershipTypeRepository.findMembershipTypeById(id);

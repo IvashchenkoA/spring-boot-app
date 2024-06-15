@@ -13,7 +13,7 @@
 <main layout:fragment="content">
     <h1 style="color:white;">Gym Branches</h1>
     <div class="city-select">
-        <form method="post" action="/gym-me-more/home/branches">
+        <form method="post" th:action="@{/home/branches}">
             <label for="city-filter"><i>Select your city:</i></label>
             <select id="city-filter" name="city" class="select-city">
                 <option value="">All Cities</option>
